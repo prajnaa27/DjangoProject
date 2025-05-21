@@ -1,0 +1,245 @@
+body {
+  font-family: 'Nunito Sans', sans-serif;
+  background-color: #f6fdf6;
+  color: #2e5234;
+}
+
+.navbar {
+  background-color: #3f7f4c;
+}
+
+.navbar-brand, .nav-link {
+  color: #fff !important;
+  font-size: 18px;
+}
+
+footer {
+  background-color: #3f7f4c;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 4rem;
+}
+
+/* Contact form styles */
+.contact-form {
+  background: #e9f9ee;
+  border: 2px solid #c8eacd;
+  border-radius: 12px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.form-label {
+  font-weight: 600;
+}
+
+.form-control {
+  border-radius: 8px;
+  border: 1px solid #bde5c8;
+  padding: 12px;
+}
+
+.btn-submit {
+  background-color: #3f7f4c;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: #3f7f4c;
+  font-weight: 600;
+  border: 1px solid #3f7f4c;
+  padding: 10px 20px;
+  border-radius: 6px;
+}
+
+.btn-cancel:hover {
+  background-color: #d9f7e5;
+}
+
+.alert {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+/* Menu cards */
+.menu-card {
+  position: relative;
+  height: 250px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.3s ease-in-out;
+  border: 2px solid #a8dbb1;
+}
+
+.menu-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.menu-card:hover .menu-overlay {
+  opacity: 1;
+}
+
+.menu-title-top {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  background: #a8dbb1;
+  padding: 0.75rem 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: black;
+  z-index: 2;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.menu-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #E7FBB4;
+  padding: 1rem;
+  transform: translateY(100%);
+  transition: transform 0.3s ease-in-out;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+  z-index: 3;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu-card:hover .menu-content {
+  transform: translateY(0%);
+}
+
+.menu-content p {
+  margin-bottom: 0.4rem;
+  color: #245d38;
+}
+
+.price-tag {
+  font-weight: 600;
+  color: #2e5234;
+  font-size: 2rem;
+}
+form input,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #bde5c8;
+}
+
+.btn-submit {
+  background-color: #3f7f4c;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 8px;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: #3f7f4c;
+  font-weight: 600;
+  border: 2px solid #3f7f4c;
+  padding: 10px 30px;
+  border-radius: 8px;
+}
+
+.contact-form {
+  background: #e9f9ee;
+  border: 2px solid #c8eacd;
+  border-radius: 12px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.contact-form {
+  background: #e9f9ee;
+  border: 2px solid #c8eacd;
+  border-radius: 12px;
+  max-width: 500px;             /* ✅ narrower width */
+  margin: 40px auto;
+  padding: 30px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #bde5c8;
+  font-size: 1rem;
+}
+
+.btn-submit {
+  background-color: #3f7f4c;
+  color: white;
+  font-weight: 600;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 8px;
+}
+
+.btn-cancel {
+  background-color: transparent;
+  color: #3f7f4c;
+  font-weight: 600;
+  border: 2px solid #3f7f4c;
+  padding: 10px 30px;
+  border-radius: 8px;
+}
+
+@media (max-width: 576px) {
+  .contact-form {
+    margin: 20px;
+    padding: 20px;
+  }
+
+  .d-flex.gap-3 {
+    flex-direction: column;
+    gap: 10px !important;
+  }
+}
+.success {
+  color: green;
+  background-color: #e6ffed;
+  padding: 10px;
+  border-left: 4px solid green;
+}
+.error {
+  color: red;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-left: 4px solid red;
+}
+.warning {
+  color: orange;
+  background-color: #fff8e1;
+  padding: 10px;
+  border-left: 4px solid orange;
+}

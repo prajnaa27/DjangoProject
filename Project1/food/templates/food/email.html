@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f6fdf6;
+      padding: 20px;
+      color: #2e5234;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      border: 1px solid #d0ebd4;
+      border-radius: 8px;
+      padding: 24px;
+    }
+    h2 {
+      color: #3f7f4c;
+      margin-bottom: 20px;
+    }
+    .label {
+      font-weight: bold;
+      margin-top: 12px;
+    }
+    .value {
+      margin: 4px 0 12px 0;
+    }
+    .footer {
+      font-size: 0.9rem;
+      color: #6c757d;
+      margin-top: 20px;
+      border-top: 1px dashed #d0ebd4;
+      padding-top: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📬 New Contact Message</h2>
+
+    <div>
+      <div class="label">Name:</div>
+      <div class="value">{{ name }}</div>
+
+      <div class="label">Email:</div>
+      <div class="value">{{ email }}</div>
+
+      <div class="label">Message:</div>
+      <div class="value" style="white-space: pre-wrap;">{{ message }}</div>
+    </div>
+
+    <div class="footer">
+      Sent via YumBites Contact Form 🍽️
+    </div>
+  </div>
+</body>
+</html>

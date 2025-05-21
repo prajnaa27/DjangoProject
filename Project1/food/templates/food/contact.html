@@ -1,0 +1,61 @@
+{% extends 'food/base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - YumBites{% endblock %}
+
+{% block content %}
+<div class="contact-form my-5">
+  <h2 class="mb-4 text-center">Contact Us</h2>
+
+<!--  {% if messages %}-->
+<!--    {% for message in messages %}-->
+<!--      <div class="alert alert-success alert-dismissible fade show" role="alert">-->
+<!--        {{ message }}-->
+<!--        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+<!--      </div>-->
+<!--    {% endfor %}-->
+<!--  {% endif %}-->
+
+  {% if messages %}
+  <div class="position-fixed top-0 end-0 p-3" style="z-index: 9999;">
+    {% for message in messages %}
+      <div class="toast align-items-center {{ message.tags }} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex align-items-center">
+          <div class="toast-body d-flex align-items-center">
+            {{ message }}
+          </div>
+          <button type="button" class="btn-close btn-close-black me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+
+  <form method="POST" novalidate>
+  {% csrf_token %}
+
+  <div class="mb-3">
+    <label for="id_name" class="form-label">Name</label>
+    {{ form.name }}
+  </div>
+
+  <div class="mb-3">
+    <label for="id_email" class="form-label">Email</label>
+    {{ form.email }}
+  </div>
+
+  <div class="mb-3">
+    <label for="id_message" class="form-label">Message</label>
+    {{ form.message }}
+  </div>
+
+  <div class="d-flex justify-content-center gap-3 mt-3">
+    <button type="submit" class="btn btn-submit">Submit</button>
+    <a href="{% url 'home' %}" class="btn btn-cancel">Cancel</a>
+  </div>
+</form>
+
+
+</div>
+{% endblock %}
