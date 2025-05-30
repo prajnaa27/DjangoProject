@@ -1,9 +1,12 @@
 {% extends 'food/base.html' %}
 {% load static %}
-
 {% block title %}YumBites - Menu{% endblock %}
-
 {% block content %}
+
+<form style="display: none;">
+  {% csrf_token %}
+</form>
+
 <h2 class="text-center mb-4">Our Menu</h2>
 <div class="row g-4">
   {% for item in items %}
@@ -13,7 +16,19 @@
         <div class="menu-overlay"></div>
         <div class="menu-content">
           <p>{{ item.item_desc }}</p>
-          <div class="price-tag">₹{{ item.item_price }}</div>
+          <div class="price-tag">₹{{ item.item_price }}
+            <div class="cart-controls" id="cart-controls-{{ item.item_name|slugify }}">
+              {% if item.current_quantity > 0 %}
+                <button class="cart-btn decrement-btn" onclick="decrement('{{ item.item_name }}', this)" data-item="{{ item.item_name }}">-</button>
+                <span class="quantity-display" id="quantity-{{ item.item_name|slugify }}">{{ item.current_quantity }}</span>
+                <button class="cart-btn increment-btn" data-name="{{ item.item_name }}" data-price="{{ item.item_price }}" onclick="addToCart(this)">+</button>
+              {% else %}
+                <button class="add-to-cart-btn" data-name="{{ item.item_name }}" data-price="{{ item.item_price }}" onclick="addToCart(this)">
+                  Add to cart
+                </button>
+              {% endif %}
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -21,4 +36,8 @@
     <p class="text-center">No items available.</p>
   {% endfor %}
 </div>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'js/add_to_cart.js' %}"></script>
 {% endblock %}
