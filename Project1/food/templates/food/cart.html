@@ -6,6 +6,8 @@
 {% block title %}Your Cart{% endblock %}
 
 {% block content %}
+
+<div class="container">
 <form style="display: none;">
   {% csrf_token %}
 </form>
@@ -13,7 +15,8 @@
 <!-- <h2 class="text-center mb-4">Your Cart</h2> -->
 <div class="cart-container">
   {% if cart %}
-    <table class="table">
+    <table class="table" style="box-shadow: #245d38;
+  border: #245d38;">
       <thead>
         <tr>
           <th>Item</th>
@@ -53,9 +56,10 @@
   {% else %}
     <h2 class="text-center" style="padding: 50px;">Your cart is empty.</h2>
     <div class="text-center">
-      <a href="{% url 'home' %}" class="btn btn-success">Continue Shopping</a>
+      <a href="{% url 'menu' %}" class="btn btn-success">← Back to Menu </a>
     </div>
   {% endif %}
+</div>
 </div>
 {% endblock %}
 {% block extra_scripts %}

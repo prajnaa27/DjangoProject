@@ -47,7 +47,8 @@ function decrement(itemName, button) {
       if (data.deleted) {
         // Item was completely removed, show "Add to cart" button
         const controlsContainer = document.getElementById(`cart-controls-${itemSlug}`);
-        const itemPrice = button.closest('.menu-content').querySelector('.cart-btn[data-price]')?.getAttribute('data-price') || '';
+        // const itemPrice = button.closest('.menu-content').querySelector('.cart-btn[data-price]')?.getAttribute('data-price') || '';
+        const itemPrice = button.getAttribute('data-price') || '';
         
         controlsContainer.innerHTML = `
           <button class="add-to-cart-btn" data-name="${itemName}" data-price="${itemPrice}" onclick="addToCart(this)">

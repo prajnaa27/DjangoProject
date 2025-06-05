@@ -12,8 +12,10 @@ from django.contrib import messages
 def hello(request):
     return HttpResponse("Hello world")
 
-#Claude
 def home(request):
+    return render(request, 'food/home.html')
+
+def menu(request):
     item_list = Item.objects.all()
     cart = request.session.get('cart', {})
     
@@ -24,40 +26,41 @@ def home(request):
     context = {
         'items': item_list,
     }
-    return render(request, 'food/home.html', context)
-# def home(request):
-#     item_list=Item.objects.all()
-#     template=loader.get_template('food/home.html')
-#     cart = request.session.get('cart', {})
-#     cart_quantities = {k: v['quantity'] for k, v in cart.items()} if cart else {}
-#     context={
-#         'items':item_list,
-#         'cart_quantities': cart_quantities,
-#     }
+    return render(request, 'food/menu.html', context)
 
-    
 
-#     # Pass cart items to template
-#     return render(request, 'food/home.html', context)
-#     # return render(request,'food/home.html',context)
 
 def add_to_cart(request, item_name):
     if request.method == 'POST':
-        cart = request.session.get('cart', {})
-        item_price = float(request.POST.get('price', 0))
+        try:
+            cart = request.session.get('cart', {})
+            
+            price_raw = request.POST.get('price')
+            if not price_raw:
+                return JsonResponse({'status': 'error', 'message': 'Missing price'}, status=400)
 
-        if item_name in cart:
-            cart[item_name]['quantity'] += 1  # Increment quantity
-        else:
-            cart[item_name] = {'quantity': 1, 'price': item_price}  # Add first time
+            item_price = float(price_raw)
 
-        request.session['cart'] = cart
-        return JsonResponse({
-            'status': 'success', 
-            'cart': cart, 
-            'quantity': cart[item_name]['quantity']
-        })
+            # Decode URL-encoded name like 'Neer%20Dosa' → 'Neer Dosa'
+            # item_name = unquote(item_name)
 
+            if item_name in cart:
+                cart[item_name]['quantity'] += 1
+            else:
+                cart[item_name] = {'quantity': 1, 'price': item_price}
+
+            request.session['cart'] = cart
+
+            return JsonResponse({
+                'status': 'success',
+                'cart': cart,
+                'quantity': cart[item_name]['quantity']
+            })
+
+        except ValueError as ve:
+            return JsonResponse({'status': 'error', 'message': f'Invalid price: {ve}'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
     return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=400)
 
@@ -97,31 +100,6 @@ def remove_from_cart(request, item_name):
         return JsonResponse({'status': 'error', 'message': 'Item not in cart'}, status=404)
     return JsonResponse({'status': 'error', 'message': 'Invalid method'}, status=400)
 
-# def cart(request):
-#     cart = request.session.get('cart',{})
-#     # total_price = sum(item['quantity'] * item['price'] for item in cart.values())
-#     total_price = sum(
-#     int(item['quantity']) * float(item['price']) 
-#     for item in cart.values()
-# )
-#     cart_items = []
-#     total_price = 0
-#     items = cart.get('items', cart)
-
-#     for item_name, details in items.items():
-#         quantity = int(details.get('quantity', 0))
-#         price = float(details.get('price', 0))
-#         subtotal = quantity * price
-#         details['subtotal'] = subtotal
-#         cart_items.append((item_name, details))
-#         total_price += subtotal
-
-#     context={
-#         'cart':cart,
-#         'total_price':total_price
-#     }
-    
-#     return render(request,'food/cart.html',context)
 
 def cart(request):
     cart = request.session.get('cart', {})
@@ -177,3 +155,4 @@ def contact(request):
     else:
         form = ContactForm()
     return render(request, 'food/contact.html', {'form': form})
+

@@ -1,43 +1,96 @@
 {% extends 'food/base.html' %}
 {% load static %}
-{% block title %}YumBites - Menu{% endblock %}
+
 {% block content %}
+<div class="hero">
+  <video autoplay muted loop playsinline>
+    <source src="{% static 'videos/YumBitesBG.mp4' %}" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <div class="overlay"></div>
+  <div class="logo-container">
+    <img src="{% static 'images/YumBitesNew.png' %}" alt="YumBites Logo" class="logo-pop">
+  </div>
+</div>
 
-<form style="display: none;">
-  {% csrf_token %}
-</form>
+<div class="highlight" id="highlight-section">
+  <div class="about-container">
+    <div class="about-image">
+      <img src="{% static 'images/home_food.jpg' %}" alt="YumBites Kitchen">
+    </div>
+    <div class="about-text">
+      <h2>About <span class="brand-name">YumBites</span></h2>
+      <p>At YumBites, we serve pure vegetarian Indian cuisine rooted in tradition and flavored with love...</p>
+    </div>
+  </div>
+</div>
 
-<h2 class="text-center mb-4">Our Menu</h2>
-<div class="row g-4">
-  {% for item in items %}
-    <div class="col-md-4">
-      <div class="menu-title-top">{{ item.item_name }}</div>
-      <div class="menu-card" style="background-image: url('{% static 'images/' %}{{ item.item_name }}.jpg');">
-        <div class="menu-overlay"></div>
-        <div class="menu-content">
-          <p>{{ item.item_desc }}</p>
-          <div class="price-tag">₹{{ item.item_price }}
-            <div class="cart-controls" id="cart-controls-{{ item.item_name|slugify }}">
-              {% if item.current_quantity > 0 %}
-                <button class="cart-btn decrement-btn" onclick="decrement('{{ item.item_name }}', this)" data-item="{{ item.item_name }}">-</button>
-                <span class="quantity-display" id="quantity-{{ item.item_name|slugify }}">{{ item.current_quantity }}</span>
-                <button class="cart-btn increment-btn" data-name="{{ item.item_name }}" data-price="{{ item.item_price }}" onclick="addToCart(this)">+</button>
-              {% else %}
-                <button class="add-to-cart-btn" data-name="{{ item.item_name }}" data-price="{{ item.item_price }}" onclick="addToCart(this)">
-                  Add to cart
-                </button>
-              {% endif %}
-            </div>
-          </div>
-        </div>
+<div class="section-transition"></div>
+
+<div class="explore-section" id="explore-section">
+  <div class="explore-container">
+    <div class="explore-text">
+      <h2>Explore Our Menu</h2>
+      <p>From dosas to desserts, discover the rich taste of Indian vegetarian cuisine.</p>
+      <a href="{% url 'menu' %}" class="explore-btn">View Menu</a>
+    </div>
+    <div class="explore-image">
+      <img src="{% static 'images/Menu_home_resized.png' %}" alt="Menu Preview">
+    </div>
+  </div>
+</div>
+
+<div class="section-transition-opp"></div>
+
+<div class="review-section">
+  <h2 class="review-heading">What People Say About Us</h2>
+  <div class="review-slider">
+    <div class="review-track">
+       <!-- Review Card 1 -->
+      <div class="review-card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"Absolutely loved the masala dosa! Fresh and flavorful."</p>
+        <span>- Kavya M.</span>
+      </div>
+
+      <!-- Review Card 2 -->
+      <div class="review-card">
+        <div class="stars">⭐⭐⭐⭐</div>
+        <p>"Great variety and very authentic South Indian taste."</p>
+        <span>- Rahul S.</span>
+      </div>
+
+      <!-- Review Card 3 -->
+      <div class="review-card">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>"Super quick delivery and warm comfort food. Loved it!"</p>
+        <span>- Sneha D.</span>
+      </div>
+
+      <!-- Add more dummy reviews here -->
+       <div class="review-card">
+        <div class="stars">⭐⭐⭐⭐</div>
+        <p>"Best food and great service."</p>
+        <span>- Partha Sukumar.</span>
+      </div>
+
+      <div class="review-card">
+        <div class="stars">⭐⭐⭐⭐</div>
+        <p>"Was a great experience !! Would love to try the OG Idli Sambar again."</p>
+        <span>- Prajna S Shetty.</span>
+      </div>
+
+      <div class="review-card">
+        <div class="stars">⭐⭐⭐⭐</div>
+        <p>"Home cooked food, is very nostalgic. Great taste and great memories whenever I have their food."</p>
+        <span>- Annie.</span>
       </div>
     </div>
-  {% empty %}
-    <p class="text-center">No items available.</p>
-  {% endfor %}
+  </div>
 </div>
-{% endblock %}
 
 {% block extra_scripts %}
-  <script src="{% static 'js/add_to_cart.js' %}"></script>
+<script src="{% static 'js/homepage_interactions.js' %}"></script>
+{% endblock %}
+
 {% endblock %}

@@ -4,7 +4,8 @@
 {% block title %}Contact Us - YumBites{% endblock %}
 
 {% block content %}
-<div class="contact-form my-5">
+<div class="container" style="padding:70px;">
+<div class="contact-form my-4">
   <h2 class="mb-4 text-center">Contact Us</h2>
 
 <!--  {% if messages %}-->
@@ -52,10 +53,11 @@
 
   <div class="d-flex justify-content-center gap-3 mt-3">
     <button type="submit" class="btn btn-submit">Submit</button>
-    <a href="{% url 'home' %}" class="btn btn-cancel">Cancel</a>
+    <a href="{% url 'menu' %}" class="btn btn-cancel">Cancel</a>
   </div>
 </form>
 
 
+</div>
 </div>
 {% endblock %}
