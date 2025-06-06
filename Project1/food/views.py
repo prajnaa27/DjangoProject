@@ -1,8 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.http import JsonResponse
-from .models import Item
+from .models import Item,Payment
+import razorpay
 from django.template import loader
 from .forms import ContactForm
 from django.core.mail import send_mail
@@ -120,7 +121,85 @@ def cart(request):
     
     return render(request, 'food/cart.html', context)
 
+def initiate_payment(request):
+    if request.method == 'POST':
+        # 1. Extract form data
+        name = request.POST.get('customer_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+        amount = int(request.POST.get('amount')) 
 
+        # 2. Create Razorpay client
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+        # 3. Create Razorpay order
+        razorpay_order = client.order.create({
+            'amount': amount,
+            'currency': 'INR',
+            'receipt': f'receipt_{phone}',
+            'payment_capture': 1
+        })
+
+        # 4. Save Payment record in DB
+        payment = Payment.objects.create(
+            order_id=razorpay_order['id'],
+            amount=amount,
+            status='created',
+            customer_name=name,
+            email=email,
+            phone=phone,
+            address=address
+        )
+
+        # 5. Pass data to Razorpay modal template
+        return render(request, 'razorpay_payment.html', {
+            'order_id': razorpay_order['id'],
+            'razorpay_key_id': settings.RAZORPAY_KEY_ID,
+            'amount': amount,
+            'payment': payment
+        })
+
+
+def upi_checkout(request):
+    if request.method == 'POST':
+        name = request.POST.get('customer_name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        address = request.POST.get('address')
+        amount = float(request.POST.get('amount'))
+
+        # Create order manually
+        payment = Payment.objects.create(
+            order_id=f"manual_{phone}_{Payment.objects.count()+1}",
+            payment_id="",
+            amount=amount,
+            status="created",
+            customer_name=name,
+            email=email,
+            phone=phone,
+            address=address
+        )
+
+
+        
+        return render(request, 'food/show_qr.html', {
+            'payment': payment,
+            'amount_display': f"{amount}"
+        })
+    
+def mark_paid(request, payment_id):
+    payment = get_object_or_404(Payment, id=payment_id)
+    if request.method == 'POST':
+        payment.status = 'paid'
+        payment.payment_id = 'manual-upi-success'
+        payment.save()
+
+        if 'cart' in request.session:
+            del request.session['cart']
+            
+        return render(request, 'food/thank_you.html', {'payment': payment})
+       
 def contact(request):
     if request.method == 'POST':
         form = ContactForm(request.POST)

@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Scan to Pay</title>
+  <style>
+    .qr-container {
+      text-align: center;
+      padding: 40px;
+    }
+    img.qr-img {
+      width: 200px;
+      margin: 20px auto;
+      display: block;
+    }
+    #timer {
+      font-size: 20px;
+      color: #444;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="qr-container">
+    <h2>Scan the QR to Pay ₹{{ amount_display }}</h2>
+    <img src="{% static 'images/upi_qr.png' %}" alt="UPI QR Code" class="qr-img">
+
+    <p>Order ID: {{ payment.order_id }}</p>
+
+    <div id="timer">Time left: 05:00</div>
+
+    <form method="POST" action="{% url 'mark_paid' payment.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-success">I Have Paid</button>
+    </form>
+  </div>
+
+  <script>
+    let seconds = 300;
+    const timerElement = document.getElementById("timer");
+
+    const countdown = setInterval(() => {
+      seconds--;
+      const min = Math.floor(seconds / 60);
+      const sec = seconds % 60;
+      timerElement.innerText = `Time left: ${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+      if (seconds <= 0) {
+        clearInterval(countdown);
+        timerElement.innerText = "Payment window expired.";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>

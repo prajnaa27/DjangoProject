@@ -51,8 +51,15 @@
     </div>
     <div class="cart-actions mt-3">
       <button class="btn btn-warning" onclick="clearCart()">Clear Cart</button>
-      <button class="btn btn-success">Proceed to Checkout</button>
+      <button  id="payNowBtn" class="btn btn-success">Pay Now</button>
+
+      <div class="payment-method">
+        <label><input type="radio" name="payment" value="upi" checked> Pay with UPI</label>
+        <label><input type="radio" name="payment" value="card"> Pay with Card</label>
+
+      </div>
     </div>
+    
   {% else %}
     <h2 class="text-center" style="padding: 50px;">Your cart is empty.</h2>
     <div class="text-center">
@@ -61,7 +68,30 @@
   {% endif %}
 </div>
 </div>
+
+<!-- Guest Info Modal -->
+<!-- Guest Info Modal -->
+<div id="guestInfoModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeGuestModal()">&times;</span>
+    <h4>Enter Delivery Details</h4>
+    <form id="guest-info-form" method="POST" action="{% url 'upi_checkout' %}">
+      {% csrf_token %}
+      <input type="text" name="customer_name" placeholder="Your Name" required><br>
+      <input type="email" name="email" placeholder="Email" required><br>
+      <input type="text" name="phone" placeholder="Phone" required><br>
+      <textarea name="address" placeholder="Delivery Address" required></textarea><br>
+
+      <input type="hidden" name="amount" value="{{ total_price }}">
+      <button type="submit" class="btn btn-primary">Continue to UPI Payment</button>
+      <button type="button" onclick="closeGuestModal()" class="btn btn-secondary">Cancel</button>
+    </form>
+  </div>
+</div>
+
+
 {% endblock %}
 {% block extra_scripts %}
   <script src="{% static 'js/add_to_cart.js' %}"></script>
+  <script src="{% static 'js/pay_now_modal_handler.js' %}"></script>
 {% endblock %}

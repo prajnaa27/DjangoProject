@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Thank You</title>
+  <style>
+    body { text-align: center; padding: 50px; font-family: sans-serif; }
+  </style>
+</head>
+<body>
+  <h2>🎉 Payment Successful!</h2>
+  <p>Thank you {{ payment.customer_name }}.</p>
+  <p>Your order has been placed and is being processed.</p>
+  <p><strong>Order ID:</strong> {{ payment.order_id }}</p>
+  <p><strong>Amount:</strong> ₹{{ payment.amount|floatformat:2 }}</p>
+  <a href="{% url 'menu' %}" class="btn btn-success">← Back to Menu</a>
+</body>
+</html>

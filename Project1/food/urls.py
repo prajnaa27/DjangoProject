@@ -10,5 +10,8 @@ urlpatterns=[
     path('decrement_cart/<path:item_name>/',views.decrement_cart,name='decrement_cart'),
     path('remove_from_cart/<path:item_name>/', views.remove_from_cart, name='remove_from_cart'),
     path('clear_cart/', views.clear_cart, name='clear_cart'),
-    path('cart/',views.cart,name='cart')
+    path('cart/',views.cart,name='cart'),
+    path('upi/checkout/', views.upi_checkout, name='upi_checkout'),
+    path('upi/confirm/<int:payment_id>/', views.mark_paid, name='mark_paid'),
+    path('pay/', views.initiate_payment, name='pay'),
 ]
